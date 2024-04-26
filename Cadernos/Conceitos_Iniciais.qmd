@@ -5,17 +5,17 @@ author: "Professor: Leonardo Brandão Freitas do Nascimento"
 # institute: |
 #   <center> Universidade Federal do Amazonas </center>
 #   <center> Departamento de Estatística </center>
-format: html
-#   revealjs:
-#           chalkboard: true
-#           theme: [default, custom.scss]
-#           #navigation-mode: horizontal
-#           controls-layout: bottom-right
-#           controls-tutorial: true
-#           slideNumber: true
-#           jumpToSlide: true
-#           parallax-background-vertical: 50
-#           touch: false
+format: 
+  revealjs:
+          chalkboard: true
+          theme: [default, custom.scss]
+          #navigation-mode: horizontal
+          controls-layout: bottom-right
+          controls-tutorial: true
+          slideNumber: true
+          jumpToSlide: true
+          parallax-background-vertical: 50
+          touch: true
 bibliography: references.bib
 ---
 
@@ -99,6 +99,8 @@ População e Amostra
 
 :   População é o conjunto de elementos (pessoas, objetos) que possuem pelos menos uma característica em comum de interesse do pesquisador. Amostra é qualquer subconjunto da população.
 
+![](Figuras/Populacao_amostra.png){fig-align="center"}
+
 ## Variável
 
 Variável
@@ -123,6 +125,8 @@ Dados
 
 3.  Uma equipe de pesquisa está investigando o impacto de diferentes configurações de hardware na Temperatura e consumo de energia em computadores pessoais durante a execução de determinado jogo. Para isso, selecionaram 50 computadores pessoais e analisaram durante 30 minutos o impacto do jogo na Temperatura e consumo de energia
 
+## Representações das variáveis
+
 -   As representações das variáveis podem ser feitas através de uma letra:
 
 |     Variável      | Representação |
@@ -139,17 +143,19 @@ Dados
 
 -   Estão relacionadas às observações associadas a contagem ou mensurações. Elas podem ser:
 
-    -    **Discretas**: assumem somente valores inteiros em um conjunto de valores , é resultado de uma possível contagem. Exemplos: número de irmãos, número de estudantes em sala de aula;
+    -   **Discretas**: assumem somente valores inteiros em um conjunto de valores , é resultado de uma possível contagem. Exemplos: número de irmãos, número de estudantes em sala de aula;
 
     -   **Contínuas**: assumem somente valores em um intervalo de valores. É o resultado de um processo de medição. Exemplos: temperatura, velocidade, peso, altura.
 
 ## Qualitativas
 
--   Representam uma \`\`qualidade'' dos objetos da população. Também são chamadas de variáveis categóricas. Elas podem ser:
+-   Representam uma "qualidade" dos objetos da população. Também são chamadas de variáveis categóricas. Elas podem ser:
 
     -   **Nominal**: possíveis respostas que não possuem uma ordenação natural. Exemplos: raça, sexo.
 
     -   **Ordinal**: possíveis respostas possuem uma ordenação natural. Exemplos: Classe social, escolaridade.
+
+## Observação
 
 -   **Observação**: algumas variáveis podem ser classificadas em mais de um tipo dependendo da unidade usada. Por exemplo, a renda medida em salários mínimos pode ser classificada como uma variável discreta, mas pode também ser ordinal se categorizada como baixa, média e alta.
 
@@ -163,7 +169,9 @@ Dados
 
 3.  Classificar se uma mensagem é um Spam.
 
-## Subdivisões da Estatística
+# Subdivisões da Estatística
+
+![](Figuras/estatistica.png){fig-align="center"}
 
 ## Amostragem
 
@@ -187,37 +195,40 @@ Dados
 
 ## Causa e Efeito X Associação
 
--   Antes de definir estudos experimentais e observacionais, irei comentar sobre a diferença entre Causa e Efeito e Associção
+-   Antes de definir estudos experimentais e observacionais, irei comentar sobre a diferença entre Causa e Efeito e Associção. Suponha o seguinte exemplo:
+
+1.  Suponha que uma equipe de pesquisadores queira investigar se a utilização de um determinado algoritmo de compressão de dados melhora o desempenho de um sistema de armazenamento em nuvem.
+
+2.  Eles realizam um experimento onde um grupo de servidores utiliza o algoritmo de compressão, enquanto outro grupo utiliza o armazenamento sem compressão.
+
+## Causa e Efeito X Associação
+
+3.  Em seguida, eles medem métricas de desempenho, como taxa de transferência de dados e tempo de resposta do servidor, ao longo de um período de tempo.
+
+## Causa e Efeito X Associação
 
 -   Suponha o seguinte exemplo:
-
-    1.  Suponha que uma equipe de pesquisadores queira investigar se a utilização de um determinado algoritmo de compressão de dados melhora o desempenho de um sistema de armazenamento em nuvem.
-
-    2.  Eles realizam um experimento onde um grupo de servidores utiliza o algoritmo de compressão, enquanto outro grupo utiliza o armazenamento sem compressão.
-
-    3.  Em seguida, eles medem métricas de desempenho, como taxa de transferência de dados e tempo de resposta do servidor, ao longo de um período de tempo.
-
-## Causa e Efeito X Associação (Continuação)
-
--   Suponha o seguinte exemplo:
-
     1.  Suponha que uma equipe de pesquisadores esteja interessada em estudar a associação entre o uso de um determinado sistema operacional e a segurança dos dispositivos móveis.
 
     2.  Eles coletam dados de uma amostra de usuários de dispositivos móveis, registrando qual sistema operacional eles utilizam e quantos incidentes de segurança relataram ao longo de um período de tempo.
 
-    3.  Os usuários de um sistema operacional específico relatam mais incidentes de segurança em comparação com os usuários de outros sistemas operacionais
+## Causa e Efeito X Associação
+
+3.  Os usuários de um sistema operacional específico relatam mais incidentes de segurança em comparação com os usuários de outros sistemas operacionais
 
 -   No entanto, eles não podem concluir que o uso desse sistema operacional causa diretamente mais incidentes de segurança, pois outros fatores podem influenciar essa relação.
 
-## Experimental X Observacional 
+## Experimental X Observacional
 
--   Suponha as seguinte situações:
+-   Suponha as seguintes situações:
 
-    1.  Um grupo de pesquisadores está interessado em estudar a preferência de linguagens de programação entre os desenvolvedores de software. Eles decidem realizar uma pesquisa online e coletam dados de uma amostra de 500 desenvolvedores
+1.  Um grupo de pesquisadores está interessado em estudar a preferência de linguagens de programação entre os desenvolvedores de software. Eles decidem realizar uma pesquisa online e coletam dados de uma amostra de 500 desenvolvedores
 
-    2.  Uma equipe de pesquisa está investigando o impacto de diferentes configurações de hardware na Temperatura e consumo de energia em computadores pessoais durante a execução de determinado jogo. Para isso, selecionaram 50 computadores pessoais e analisaram durante 30 minutos o impacto do jogo na Temperatura e consumo de energia.
+## Experimental X Observacional
 
-## Experimental X Observacional (Continuação)
+2.  Uma equipe de pesquisa está investigando o impacto de diferentes configurações de hardware na Temperatura e consumo de energia em computadores pessoais durante a execução de determinado jogo. Para isso, selecionaram 50 computadores pessoais e analisaram durante 30 minutos o impacto do jogo na Temperatura e consumo de energia.
+
+## Experimental X Observacional
 
 Experimental
 
