@@ -1,0 +1,330 @@
+---
+title: "Probabilidade e Estatística"
+subtitle:  <center> Técnicas de Amostragem <center> 
+author: "Professor: Leonardo Brandão Freitas do Nascimento"
+# institute: |
+#   <center> Universidade Federal do Amazonas </center>
+#   <center> Departamento de Estatística </center>
+format: 
+  revealjs:
+          chalkboard: true
+          theme: [default, custom.scss]
+          #navigation-mode: horizontal
+          controls-layout: bottom-right
+          controls-tutorial: true
+          slideNumber: true
+          jumpToSlide: true
+          parallax-background-vertical: 50
+          touch: true
+bibliography: references.bib
+---
+
+# Introdução
+
+## Subdivisões da Estatística
+
+![](Figuras/estatistica.png){fig-align="center"}
+
+## Amostragem
+
+-   A utilização de amostra em pesquisa é uma prática fundamental para extrair conclusões válidas e representativas de uma população maior.
+
+-   Ao invés de coletar dados de toda a população, o que pode ser impraticável em termos de tempo, custo e recursos, amostras são selecionadas e estudadas.
+
+-   Isso permite generalizar as descobertas da amostra para a população maior, desde que a amostra seja adequadamente selecionada e representativa.
+
+## Amostragem
+
+-   Nestes casos, a Estatística apresenta algumas técnicas para a obtenção de uma amostra.
+
+-   Cuidado básico: a amostra deve ser representativa da população, ou seja, deve possuir aproximadamente as mesmas características que a população da qual foi retirada.
+
+## Amostragem
+
+-   Algumas razões de trabalhar com amostras:
+
+    -   Envelhecimento da pesquisa: tempo excessivo para coleta dos dados;
+
+    -   Econômicas: restrições orçamentárias de projetos;
+
+    -   Éticas: experimentos laboratoriais com seres vivos;
+
+    -   Inacessibilidade de informações: análise do sangue de uma pessoa ou experimento para determinar o tempo de funcionamento de uma lâmpada.
+
+# Técnicas de Amostragem
+
+-   Uma amostra pode ser composta por métodos **probabilísticos** e **não-probabilísticos.**
+
+-   A diferenciação entre amostragem probabilística e não probabilística está relacionada à maneira como os elementos são selecionados para compor a amostra.
+
+-   Para mais detalhes @maurits2022statistics
+
+## Métodos Probabilísticos
+
+Métodos probabilísticos
+
+:   Cada membro da população tem uma chance de ser selecionado para a amostra. Isso significa que todos os elementos da população têm a mesma oportunidade de serem escolhidos.
+
+-   Os Métodos probabilísticos são:
+
+    -   Amostragem Aleatória Simples
+
+    -   Amostragem Sistemática
+
+    -   Amostragem Estratificada
+
+    -   Amostragem por conglomerado
+
+## Aleatória Simples
+
+Amostra Aleatória Simples (AAS)
+
+:   Cada membro da população tem a mesma chance de ser selecionado para a amostra.
+
+-   Procedimento:
+
+    -   Cada participante/elemento da população "recebe" um número.
+
+    -   Os elementos que irão compor a amostra são selecionados através de um sorteio aleatório.
+
+## Aleatória Simples
+
+-   Observações:
+
+    -   Pode não representar bem subgrupos populacionais.
+
+    -   Devemos utilizar ASS somente quando a população for homogênea em relação a variável em estudo
+
+## Aleatória Simples
+
+### Exemplos
+
+1.  Um estudo sobre preferências de linguagens de programação, selecionar aleatoriamente desenvolvedores de software de uma lista de empresas de tecnologia.
+
+2.  Uma empresa de comércio eletrônico deseje avaliar a satisfação dos clientes em relação a sua plataforma de vendas online. Eles têm uma base de dados com informações de todos os clientes que fizeram compras nos últimos seis meses.
+
+## Aleatória Simples
+
+### Exemplo no R
+
+```{r}
+#| echo: true
+#| 
+N = 1000 # quantidade de clientes
+x = 1:N # sequência de números de 1 a 1000
+n = 10 # tamanho da amostra
+set.seed(1) # para que selecione a mesma amostra
+sample(x,n) # realiza o sorteio de n clientes
+```
+
+## Sistemática
+
+Amostragem Sistemática
+
+:   A amostra sistemática é constituída por $n$ unidades retiradas da população segundo um sistema preestabelecido.
+
+-   Procedimentos: apresentado dentro do exemplo
+
+## Sistemática
+
+-   Observações:
+
+    -   Utiliza-se em situações como amostrar pessoas que ficam em uma fila ou quando os elementos estão ordenados
+
+    -   É de fundamental importância que a variável de interesse não apresente ciclos de variação coincidentes com os ciclos de retirada.
+
+## Sistemática
+
+### Exemplo
+
+1.  Suponha que uma empresa de desenvolvimento de software esteja conduzindo um estudo sobre a eficiência de um sistema de processamento de pedidos online.
+
+2.  A empresa possui uma lista ordenada de pedidos registrados no sistema, onde cada pedido é atribuído a um cliente.
+
+3.  Considere que tenha $N=1000$ pedidos no total e a equipe quer uma amostra de $n=50$ pedidos
+
+## Sistemática
+
+### Exemplo (continuação)
+
+-   Procedimentos
+
+    1.  Enumerar a população de $1$ até $N$, onde $N$ é o tamanho da população, ou seja, $N=1000$
+
+    2.  Calcular a constante $c = \dfrac{N}{n}$, onde $n$ é o tamanho da amostra, ou seja, $c= \dfrac{1000}{50}=20$
+
+    3.  Sortear um número entre $1$ e $c$, ou seja, entre $1$ e $20$. Esse número é denominado Ponto Inicial de Amostragem (PIA).
+
+## Sistemática
+
+### Exemplo (continuação)
+
+4.  Suponha que o número escolhido seja 8. Nesse caso, o oitavo pedido/cliente será o primeiro da amostra
+
+5.  A partir do pedido número 8, conte mais 20 e selecione esse pedido/cliente, ou seja, pedido/cliente de número 28.
+
+6.  Proceda dessa forma até completar a amostra de 50 clientes
+
+## Estratificada
+
+Amostragem Estratificada
+
+:   A população é dividida em estratos ou grupos com características semelhantes, e depois são selecionadas aleatoriamente amostras de cada estrato.
+
+-   Procedimentos: apresentado dentro do exemplo
+
+## Estratificada
+
+-   Observações:
+
+    -   Utilizar em situações onde a variável de interesse apresenta uma heterogeneidade na população e essa heterogeneidade permite a identificação de grupos homogêneos.
+
+    -   A sua implementação é dificultada pela falta de informação sobre a população para fazer a estratificação.
+
+## Estratificada
+
+### Exemplo
+
+-   Imagine que o prefeito de uma cidade $X$ deseja fazer um pesquisa de satisfação das pessoas em relação aos serviços prestados pela prefeitura.
+
+-   Estudos anteriores mostram uma relação entre a satisfação das pessoas e a zona onde a pessoa mora.
+
+-   Essa cidade foi dividida em três zonas (estratos), conforme a Tabela a seguir.
+
+## Estratificada
+
+### Exemplo (continuação)
+
+| Zonas (Estratos) | Hab. em cada zona | Hab. em cada zona (%) |
+|:----------------:|:-----------------:|:---------------------:|
+|        1         |        700        |         84,6          |
+|        2         |        100        |         12,1          |
+|        3         |        27         |          3,3          |
+|      Total       |        827        |          100          |
+
+## Estratificada
+
+### Exemplo (continuação)
+
+-   Procedimentos:
+
+    -   Calcule a proporção de cada estrato na população, dividindo o tamanho do estrato pelo tamanho da população
+
+    -   Considere o Tamanho da amostra igual a 200
+
+    -   A obtenção da quantidade de pessoas que será amostrada na população (por zona) será dada por: multiplicando a proporção de cada estrato pelo tamanho da amostra $(n=200)$
+
+## Estratificada
+
+### Exemplo (continuação)
+
+| Zonas (Estratos) | Hab. em cada zona | Hab. em cada zona (%) |
+|:----------------:|:-----------------:|:---------------------:|
+|        1         |        169        |         84,6          |
+|        2         |        24         |         12,1          |
+|        3         |         7         |          3,3          |
+|      Total       |        200        |          100          |
+
+## Conglomerados
+
+Amostragem por Conglomerados
+
+:   Nesse procedimento, a população é dividida em subpopulações ou conglomerados de elementos heterogêneos, em seguida, uma $ASS$ é utilizada para selecionar o conglomerado e depois todos os indivíduos dos conglomerados selecionado serão analisados.
+
+-   Procedimentos serão apresentados dentro do exemplo.
+
+## Conglomerados
+
+-   Observações:
+
+    -   Geralmente, os conglomerados são definidos por fatores geográficos, como bairros e quarteirões. No entanto, podemos considerar, por exemplo, um asilo como um conglomerado de idoso ou o batalhão do exército como um glomerado de jovens.
+
+## Conglomerados
+
+### Exemplo
+
+-   Considere um estudo para avaliar a qualidade dos celulares (mesmo modelo) disponíveis em diferentes lojas Procedimentos:
+
+  -   Inicialmente, identificaremos todas as lojas de celulares na área de estudo.
+
+  -   Em seguida, selecionaremos aleatoriamente um número específico de lojas de celulares para compor nossa amostra
+
+## Conglomerados
+
+### Exemplo (Continuação)
+
+  -   Coletar a opinião de todos os clientes de cada loja de selecionada
+
+# Métodos não Probabilísticos
+
+Métodos não Probabilísticos
+
+:   É aquela em que a seleção dos elementos da população para compor a amostra depende ao menos em parte do julgamento do pesquisador ou do entrevistador no campo. A seleção não é realizada de maneira aleatória.
+
+-   Os métodos são: julgamento e acidental/coveniência. Outros métodos são apresentado em @maurits2022statistics
+
+## Julgamento
+
+Amostragem por julgamento
+
+:   -   Os elementos são selecionados com base no julgamento dos pesquisadores sobre sua relevância para o estudo
+
+    -   Isso significa que a coleta de unidades é focada em uma ou mais características particulares, o que implica que apenas unidades mais semelhantes são amostradas.
+
+## Julgamento
+
+### Exemplo
+
+-   Vamos considerar um estudo que investiga as preferências de desenvolvedores de software em relação ao sistema operacional que utilizam para desenvolvimento.
+
+-   Na amostragem por julgamento, os pesquisadores podem escolher entrevistar desenvolvedores que se destacam em termos de experiência e influência na comunidade de desenvolvimento de software.
+
+## Julgamento
+
+-    Nesse caso, os pesquisadores podem selecionar desenvolvedores seniores que têm um histórico de contribuições para projetos de código aberto em plataformas como GitHub ou GitLab.
+
+## Conveniência
+
+Amostragem por Conveniência
+
+:   Os pesquisadores selecionam elementos com base em sua disponibilidade e acessibilidade.
+
+-   Observações:
+
+    -   A amostragem por conveniência é é frequentemente justificada com o argumento da homogeneidade da população.
+
+    -   Em alguns casos os resultados da amostragem por conveniência podem ser bons, mas em outros casos podem apresentar séria tendenciosidade;\
+
+## Conveniência
+
+### Exemplo:
+
+-   Suponha que uma empresa queira realizar um estudo sobre o uso de ferramentas de controle de versão entre os desenvolvedores.
+
+-   Nesse caso a empresa entrevista desenvolvedores que trabalham na própria empresa
+
+## Conveniência
+
+### Exemplo:
+
+-   O pesquisador deseja saber qual a preferência dos eleitores em uma disputa ao governo;
+
+-   Pesquisadores de campo poderia ficar em locais de grande tráfego de eleitores, questionando-os sobre suas preferências;
+
+-   Note que os eleitores mais fáceis foram selecionados;
+
+-   Problema: o local escolhido para a coleta influencia a composição da amostra
+
+# Resumo
+
+-   Na amostragem probabilística, a teoria da probabilidade permite que o pesquisador calcule a natureza e extensão do viés das estimativas;
+
+-   Uma amostragem probabilística podem ser feitas inteiramente por métodos estatísticos, não assumindo critérios em relação à distribuição das características na população;
+
+-   A amostragem não probabilística envolve uma série de métodos de seleção de amostras onde são realizados julgamentos, sendo portanto não aleatório;
+
+# Resumo
+
+-   Os resultados de uma pesquisa baseada em amostragem não probabilística não permitem generalizações a respeito da população em estudo.
+
+# Referências
