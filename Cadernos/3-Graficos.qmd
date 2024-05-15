@@ -1,0 +1,452 @@
+---
+title: "Probabilidade e Estatística"
+subtitle:  <center> Gráficos <center> 
+author: "Professor: Leonardo Brandão Freitas do Nascimento"
+# institute: |
+#   <center> Universidade Federal do Amazonas </center>
+#   <center> Departamento de Estatística </center>
+execute:
+  echo: true
+format: 
+  revealjs:
+          #fig-align: "center"
+          #fig-width: 20
+          #fig-height: 15
+          chalkboard: true
+          theme: [default, custom.scss]
+          #navigation-mode: horizontal
+          controls-layout: bottom-right
+          controls-tutorial: true
+          slideNumber: true
+          jumpToSlide: true
+          parallax-background-vertical: 50
+          touch: true
+bibliography: references.bib
+---
+
+# Introdução
+
+-   Após a coleta e organização de dados, os próximos passos são:
+    -   Resumir as informações;
+    -   Comunicar a informação obtida.
+-   Nesse processo usam-se tabelas, gráficos e estatísticas de resumo (análise exploratória de dados) que permitem uma síntese e uma melhor compreensão dos resultados.
+
+# Tabelas de Frequências
+
+-   Quando se estuda uma variável, o maior interesse do pesquisador é conhecer o comportamento dessa variável, analisando a ocorrência de suas possíveis realizações.
+
+-   As tabelas de distribuição de frequência permitem identificar características dos dados em análise. Elas podem ser: **simples, intervalares e dupla entrada**
+
+## Conceitos Básicos
+
+-   **Dados brutos:** valores coletados, sem tratamento ,os seguintes valores poderiam ser os dados brutos: 24, 23, 22, 28, 35, 21, 23, 33.
+
+-   **Rol:** é o arranjo dos dados brutos em ordem de frequência crescente ou decrescente. Os dados brutos anteriores ficariam assim: 21, 22, 23, 23, 24, 28, 33, 35.
+
+-   **Amplitude Total (AT):** é a diferença entre o maior e o menor valor observado, $AT = \text{maior valor} - \text{menor valor}$. No exemplo, $AT = 35 - 21 = 14$.
+
+## Conceitos Básicos
+
+-   **Classe:** é cada um dos grupos de valores em que se subdivide a amplitude total do conjunto de valores observados da variável.
+
+-   **Limite de Classe:** são os valores extremos do intervalo de classe. Exemplo: No intervalo de classe $75|--85$ ou $[75,85)$ ou $[75,85[$, o limite inferior (LI) é representado pelo valor 75, inclusive, e o valor 85 representa o limite superior (LS), exclusive, do intervalo de classe.
+
+## Conceitos Básicos
+
+-   **Ponto Médio do Intervalo de Classe** ($x_i$ ou $PM_i$): é o valor que representa a classe para o cálculo de certas medidas. Ele é obtido através da seguinte razão: $PM_i = \frac{LS+LI}{2}$. O ponto médio da classe $[75,85)$ é $$PM = \frac{LS+LI}{2} = \frac{85+75}{2}=80.$$
+
+-   **Observação**: Amplitude da Classe é dada por: $AC = LS-LI$
+
+## Conceitos Básicos - Tipos de Frequência
+
+1.  **Frequência absoluta ou observada (**$f_a$): é o número de vezes que o elemento aparece na amostra, ou o número de elementos pertencentes a uma classe.
+
+2.  **Frequência relativa (**$f_r$): é o valor da frequência absoluta dividido pelo número total de observações: $f_r = \frac{f_a}{n}$. A soma de todas as frequências é igual a 1. A $f_r$ é apresentada como proporção (valor entre 0 e 1) ou como percentual (valor entre 0 e 100) $f_r = \frac{f_a}{n} \times 100$.
+
+## Conceitos Básicos - Tipos de Frequência
+
+3.  **Frequência absoluta acumulada (**$F_{a}$): corresponde ao total acumulado das $f_a$ observadas até no nível em questão (inclusive).
+
+4.  **Frequência relativa acumulada (**$F_{r}$): corresponde ao total acumulado das $f_r$ observadas até no nível em questão (inclusive).
+
+## Tabela Simples
+
+### Exemplo - Falta dos empregados
+
+-   As faltas ao trabalho de 30 empregados estão a seguir:\
+    $$
+    1, 3, 1, 1, 0, 1, 0, 1, 1, 0 \\
+    2, 2, 0, 0, 0, 1, 2, 1, 2, 0 \\
+    0, 1, 6, 4, 3, 3, 1, 2, 4, 0 
+    $$
+
+## Tabela Simples
+
+### Exemplo - Falta dos empregados
+
+Determine:
+
+a)  Frequência absoluta e Frequência absoluta acumulada
+b)  Frequência relativa e Frequência relativa acumulada
+c)  Porcentagem de empregados que tiveram no máximo 3 faltas.
+d)  Número de empregados que tiveram pelo menos 3 faltas
+e)  Número de empregados que tiveram no mínimo 1 e no máximo 3 faltas.
+
+## Tabela Simples
+
+### Exemplo - Falta dos empregados
+
+```{r}
+dados <- c(1, 3, 1, 1, 0, 1, 0, 1, 1, 0, 2, 2, 0, 0, 0, 1, 2, 1, 2, 0, 0, 1, 6, 4, 3, 3, 1, 2, 4, 0)
+length(dados) # tamnho dos dados
+require(tidyverse)
+tabela = tibble(X = unique(dados) |> sort(),
+                f_a = table(dados),
+                f_r = prop.table(f_a) |> round(2),
+                F_a = cumsum(f_a),
+                F_r = cumsum(f_r)
+                ) 
+```
+
+## Tabela Simples
+
+### Exemplo - Falta dos empregados
+
+```{r}
+knitr::kable(tabela,booktabs = TRUE)
+```
+
+## Tabelas de frequência intervalares
+
+-   A ideia básica é dividir os valores em determinadas classes ou intervalos;
+
+-   Embora não exista uma regra única para a determinação do tamanho e da quantidade de classes, devem-se observar as seguintes indicações:
+
+    a)  O extremo superior de uma classe é o extremo inferior da classe subsequente;
+
+    b)  Cada valor observado deve enquadrar-se em apenas uma classe;
+
+    c)  A quantidade de classes, de modo geral, não deve ser inferior a 5 ou superior a 25.
+
+## Tabela Intervalar
+
+-   Os tempos, em minutos, gasto por estudantes na resolução de um problema de estatística foram os seguintes:
+
+$$
+17,	 19, 21, 	26,	 29,	 31,	 32,	 33, 
+\\ 	37,	 38,		40, 	41,	 42,	 43,	 44,	 47, \\	
+47, 	48,	 53,		54, 	58,	 59,	 60,	 63. 	
+$$
+
+## Tabela Intervalar
+
+a)  Apresente a distribuição de frequências (Intervalos) da variável tempo.
+
+b)  Qual a proporção de estudantes que gastam pelo menos 41 minutos?
+
+c)  Qual a proporção de estudantes que gastam entre 25 e 49 minutos (inclusive)?
+
+d)  Qual a proporção de estudantes que gastam menos do que 41 minutos?
+
+## Tabela Intervalar
+
+```{r}
+dados <- c(17, 19, 21, 26, 29, 31, 32, 33, 
+           37, 38, 40, 41, 42, 43, 44, 47, 
+           47, 48, 53, 54, 58, 59, 60, 63)
+
+# obtendo o número de classes
+HIST = hist(dados,plot = F)
+inter.class = cut(dados,breaks = HIST$breaks)
+head(inter.class)
+```
+
+## Tabela Intervalar
+
+```{r}
+tabela = tibble(X = unique(inter.class) |> sort(),
+                PM = HIST$mids,
+                f_a = table(inter.class),
+                f_r = prop.table(f_a) |> round(3),
+                F_a = cumsum(f_a),
+                F_r = cumsum(f_r)
+) 
+```
+
+## Tabela Intervalar
+
+```{r}
+knitr::kable(tabela)
+```
+
+## Tabela de dupla entrada
+
+-   Suponha que queiramos analisar o **comportamento conjunto** das variáveis $X$ (Grau de escolaridade) e $Y$ (Região de procedência) dos empregados de uma empresa.
+
+## Tabela de dupla entrada
+
+```{r}
+empregados = read.table("../../dados/empregados.txt",sep=";",header = T)
+tab.abs = table(Y=empregados$reg_procedencia,
+         X = empregados$grau_instrucao) |> addmargins()
+(tab.abs)
+```
+
+## Tabela de dupla entrada
+
+-   4 indivíduos procedem da capital e possuem o ensino fundamental;
+
+-   11 indivíduos são da capital;
+
+-   18 individuos possuem o ensino médio
+
+-   Note que na última coluna está representada a frequência absoluta da variável $Y$
+
+-   Note que na última linha está representada a frequência absoluta da variável $X$
+
+-   As frequências da parte interna da tabela são chamadas de frequências absolutas conjunta entre $X$ e $Y$.
+
+## Tabela de dupla entrada
+
+-   Ao invés de trabalharmos com frequência absoluta, podemos construir tabelas com a frequência relativa (proporções). Nesse caso, podemos considerar três possibilidades para expressar a proporção:
+
+    a)  em relação ao total;
+
+    b)  em relação ao total de cada coluna;
+
+    c)  em relação ao total de cada linha.
+
+## Tabela de dupla entrada - Total
+
+```{r}
+table(Y=empregados$reg_procedencia,X = empregados$grau_instrucao) |>
+  prop.table() |> 
+  addmargins() |> 
+  round(2)
+```
+
+-   11% dos empregados vêm da capital e têm o ensino fundamental
+
+-   Os totais nas margens fornecem as distribuições unidimensional de cada uma da variável, 31% dos indivíduos vêm da capital.
+
+# Gráficos - Dados simulados
+
+## Apresentação da base de dados
+
+-   Base simulada usando o programa R
+
+-   Emails de 100 remetentes
+
+```{r}
+#| echo: false
+
+
+
+gerar_nomes <- function(n) {
+  nomes <- c("João", "Maria", "José", "Ana", "Pedro", "Mariana", "Carlos", "Laura", "Rafael", "Tatiane", "Lucas", "Fernanda")
+  sobrenomes <- c("Silva", "Santos", "Oliveira", "Pereira", "Souza", "Costa", "Ferreira", "Almeida", "Ribeiro", "Cavalcante", "Gomes", "Martins")
+  NOME = sample(nomes, n, replace = TRUE) # Seleciona 'n' nomes aleatórios
+  SOBRE = sample(sobrenomes, n, replace = TRUE) # Seleciona 'n' nomes aleatórios
+  paste(NOME,SOBRE,sep="-")
+}
+nomes_remetentes <- gerar_nomes(100)
+```
+
+```{r}
+#| echo: false
+# Gerar nomes aleatórios para os remetentes
+
+
+# Criar um DataFrame com características extraídas de mensagens eletrônicas
+dados_email <- data.frame(
+  remetente = paste0(nomes_remetentes, "@example.com"),
+  assunto = sample(c("Oferta Especial", "Confirmação de Pedido", "Convite para Evento", "Atualização de Conta", "Prêmio Ganho"), 100, replace = TRUE),
+  tamanho_kb = round(runif(100, min = 50, max = 500)),  # Tamanho aleatório entre 50 e 500 KB
+  prioridade = sample(c("Alta", "Média", "Baixa"), 100, replace = TRUE, prob = c(0.4, 0.4, 0.2)),
+  spam = sample(c(TRUE, FALSE), 100, replace = TRUE),
+  qtd_caracteres = round(runif(100, min = 50, max = 300)),  # Quantidade aleatória de caracteres
+  formato = sample(c("HTML", "Texto"), 100, replace = TRUE)  # Formato aleatório (HTML ou texto)
+)
+
+# Exibir as primeiras linhas do DataFrame
+
+```
+
+```{r}
+#| echo: true
+print(head(dados_email))
+```
+
+## Identificações das variáveis
+
+```{r}
+#| echo: true
+
+str(dados_email)
+```
+
+## Histogramas
+
+```{r}
+#| echo: true
+
+
+par(mfrow=c(1,2))
+hist(dados_email$qtd_caracteres,ylab="Frequência",main=" ",xlab="Quantidade de caracteres")
+hist(dados_email$tamanho_kb,ylab="Frequência",main=" ",xlab="tamanho em kb")
+```
+
+## Densidades
+
+```{r}
+#| echo: true
+
+par(mfrow=c(1,2))
+hist(dados_email$qtd_caracteres,prob =  T,ylab="Densidade",main=" ",xlab="Quantidade de caracteres")
+hist(dados_email$tamanho_kb,prob =  T,ylab="Densidade",main=" ",xlab="tamanho em kb")
+```
+
+## Gráficos de Barras
+
+-   Tabelas: Frequências Absolutas e Relativas
+
+```{r}
+#| echo: true
+#| 
+dados_email$prioridade <- factor(dados_email$prioridade,levels = c("Baixa","Média","Alta"))
+(tabela = table(dados_email$prioridade) ) 
+(tabela.prop = prop.table(tabela)) 
+```
+
+## Gráficos de Barras
+
+```{r}
+#| echo: true
+
+par(mfrow=c(1,2))
+LABELS.1 = paste(tabela,sep = "")
+bar_1 = barplot(tabela,xlab = "Prioridade",ylab="Frequência Absoluta")
+text(x = bar_1,y = tabela-2,labels = LABELS.1)
+
+bar_2 = barplot(tabela.prop,xlab = "Prioridade",ylab="Frequência Relativa")
+LABELS.2 = paste(tabela.prop*100,"%",sep = "")
+text(x = bar_1,y = tabela.prop-0.05,labels = LABELS.2)
+```
+
+## Setores
+
+```{r}
+#| echo: true
+#| 
+cores = gray(c(0.25,0.50,0.75),alpha = 0.5)
+LABELS = paste(tabela.prop*100,"%",sep = "")
+pie(tabela.prop,labels = LABELS,col = cores)
+legend("topright",legend = names(tabela.prop),fill=cores)
+```
+
+## Boxplot
+
+```{r}
+#| echo: true
+#| 
+par(mfrow=c(1,2))
+boxplot(dados_email$tamanho_kb,main="Tamanho da mensagem em kb")
+boxplot(dados_email$qtd_caracteres,main="Quantidade de caracteres")
+```
+
+## Gráfico de dispersão
+
+```{r}
+#| echo: true
+#| 
+par(mfrow=c(1,2))
+plot(dados_email$tamanho_kb,ylab="Tamanho da mensagem em kb",xlab="Índice")
+plot(dados_email$qtd_caracteres,ylab="Quantidade de caracteres",xlab="Índice")
+```
+
+# Gráficos - Dados Meteorológicos
+
+## Apresentação
+
+```{r}
+dados  = readRDS("../../dados/dados_meteorologicos_am.rds")
+head(dados)
+```
+
+-   rh: menor média diária da umidade relativa
+
+-   tbs (temperatura bulbo seco): tbs do dia em que ocorreu a menor média diária de "rh"
+
+-   tbu (temperatura bulbo úmido): tbu do dia em que ocorreu a menor média diária de "rh"
+
+-   precp: precipitação (mm) no mês
+
+## Identificações das variáveis
+
+```{r}
+str(dados)
+table(dados$cidade) |> addmargins()
+```
+
+## Boxplot
+
+```{r}
+boxplot(dados$rh ~ dados$cidade,xlab = "",ylab="Umidade Relativa",las=2)
+```
+
+## Linhas
+
+-   Vamos selecionar a Cidade de Manaus
+
+```{r}
+manaus = subset(dados,cidade=="Manaus")
+plot.ts(manaus$rh,ylab="Umidade Relativa",xlab="Índice")
+```
+
+## Linhas
+
+```{r}
+(manaus.rh = ts(manaus$rh,start = 2000,frequency = 12))
+
+```
+
+## Linhas
+
+```{r}
+plot(manaus.rh,ylab="Umidade Relativa",xlab="Data")
+```
+
+## Gráfico de Barras
+
+```{r}
+#| message: false
+require(tidyverse)
+precp.mes.total = dados %>% group_by(cidade,month) %>%
+  summarise(total = sum(precp)) 
+precp.mes.total
+```
+
+## Gráfico de Barras
+
+```{r}
+barplot(total~month+cidade,data = precp.mes.total,beside=T,las=2,ylab = "Precipitação mensal",xlab="Cidade",col=heat.colors(12))
+legend("topright",legend = month.abb,horiz = T,fill = heat.colors(12),title = "Mês",bty = "n")
+```
+
+## Gráfico de Dispersão
+
+```{r}
+par(mfrow=c(1,2))
+plot(manaus$rh,manaus$tbs,xlab="Umidade relativa",ylab="Temperatura")
+plot(manaus$rh,manaus$precp,xlab="Umidade relativa",ylab="Precipitação")
+```
+
+## Histograma
+
+```{r}
+par(mfrow=c(1,2))
+hist(manaus$rh,xlab="Umidade relativa",ylab="Frequência",main="")
+hist(manaus$precp,ylab="Frequência",xlab="Precipitação",main="")
+```
+
+# Referências
