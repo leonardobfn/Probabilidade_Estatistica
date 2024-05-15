@@ -229,7 +229,7 @@ table(Y=empregados$reg_procedencia,X = empregados$grau_instrucao) |>
 
 -   Os totais nas margens fornecem as distribuições unidimensional de cada uma da variável, 31% dos indivíduos vêm da capital.
 
-# Gráficos - Dados simulados
+# Gráficos - Dados simulados te
 
 ## Apresentação da base de dados
 
