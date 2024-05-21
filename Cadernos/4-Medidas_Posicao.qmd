@@ -1,0 +1,395 @@
+---
+title: "Probabilidade e Estatística"
+subtitle:  <center> Medidas de Posição <center> 
+author: "Professor: Leonardo Brandão Freitas do Nascimento"
+# institute: |
+#   <center> Universidade Federal do Amazonas </center>
+#   <center> Departamento de Estatística </center>
+execute:
+  echo: true
+  message: false
+  warning: false
+format: 
+  revealjs:
+          #fig-align: "center"
+          #fig-width: 20
+          #fig-height: 15
+          chalkboard: true
+          theme: [default, custom.scss]
+          #navigation-mode: horizontal
+          controls-layout: bottom-right
+          controls-tutorial: true
+          slideNumber: true
+          jumpToSlide: true
+          parallax-background-vertical: 50
+          touch: true
+bibliography: references.bib
+---
+
+# Introdução
+
+-   As medidas de tendência central são estatísticas usadas para resumir um conjunto de dados, indicando um valor central ou típico em torno do qual os dados se distribuem.
+
+-   As principais medidas de tendência central são a média, a mediana e a moda.
+
+-   Cada uma dessas medidas tem suas próprias características e aplicações, dependendo do tipo de dados e do contexto da análise
+
+-   O interesse é caracterizar o conjunto de dados através de medidas que resumem as informações
+
+## Símbolos matemáticos
+
+-   Para representar uma amostra de tamanho $n$, escrevemos: $$x_1, x_2,..., x_n,$$ onde $x_i$ é a $i$-ésima observação em um conjunto de $n$ observações, ou seja, $x_1$ representa a primeira observação, $x_2$ a segunda e assim por diante.
+
+-   Considere os tempos, em segundos, de cinco tarefas realizadas por uma CPU: $$30; 25; 28;33;31. $$
+
+-   Escreva esse conjunto na notação geral: $x_1 = 30$,$x_2 = 25$, $x_3 = 28$, $x_4 = 33$, $x_5 = 31$.
+
+## Símbolos matemáticos
+
+-   Em alguns momentos estamos interessados em ordenar os dados do menor valor para o maior valor, dessa forma escrevemos: $$x_{(1)}, x_{(2)},...,  x_{(n)},$$ onde $x_{(1)}$ é a menor observação, $x_{(2)}$ é a segunda menor e assim por diante.
+
+-   Considere os tempos, em segundos, de cinco tarefas realizadas por uma CPU: $$30; 25; 28;33;31. $$
+
+-   Ordene os dados e escreva na notação apresentada: $x_{(1)} = 25$,$x_{(1)} = 28$, $x_{(3)} = 30$, $x_{(4)} = 31$, $x_{(5)} = 33$.
+
+## Símbolos matemáticos
+
+-   Para indicarmos a soma dos valores $x_1, x_2,..., x_n$, isto é, $x_1+x_2+x_3+...+x_n$, utilizamos o símbolo $\Sigma$ (letra grega maiúscula: sigma), denominado como somatório em linguagem matemática.
+
+-   A soma dos valores $x_1, x_2,..., x_n$ é escrita, de forma mais compacta, como segue: $$x_1+x_2+x_3+...+x_n = \sum_{i=1}^{n}x_i. $$
+
+-   Lemos: somatório de $x$ índice $i$, para $i$ de $1$ a $n$.
+
+# Média
+
+## Média Aritmética Simples
+
+-   A média arimética simples de um conjunto de dados é obtida somando todos os valores e dividindo o resultado pelo tamanho da amostra, ou seja, $$\mbox{Média} = \dfrac{\mbox{soma de todos os valores}}{\mbox{Tamanho da amostra}}.$$
+
+## Média Aritmética Simples
+
+-   Se as $n$ observações em uma amostra forem denotadas por $x_1,x_2,\ldots,x_n$, então a média amostral será $$\bar{x}=\frac{x_1+x_2+\cdots+x_n}{n}=\frac{\sum\limits_{i=1}^{n}x_i}{n}.$$
+
+## Média Aritmética Simples - Exemplo
+
+::: panel-tabset
+### Escrito {#sec-escrito}
+
+-   Para calcular a média do conjunto de dados $30, 25, 28, 33, 31$, utilizamos a fórmula da média aritmética: $\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$, ou seja, $$\bar{x} = \frac{30 + 25 + 28 + 33 + 31}{5} = \frac{145}{5} = 29.4$$
+
+<!-- -   Portanto, o tempo médio da cpu para realizar as tarefas foi de $29.4$ segundos. -->
+
+### No R {#sec-no-r}
+
+```{r}
+tempo.cpu = c(30,25,28,33,31)
+print(paste("A média do conjunto de dados é:", mean(tempo.cpu) ) )
+```
+:::
+
+## Média Aritmética Ponderada - Exemplo
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 20 tarefas
+-   As frequências podem ser observadas como o peso de cada observação.
+
+## Média Aritmética Ponderada - Exemplo
+
+```{r}
+#| echo: false
+require(tidyverse)
+set.seed(45)
+dados = runif(20,35,40) |> round()
+tabela = tibble::tibble(X = sort(dados) |> unique(),
+               fa = table(dados),
+               fr = prop.table(fa),
+               Fa = cumsum(fa),
+               Fr = cumsum(fr) )
+knitr::kable(tabela)
+```
+
+## Média Aritmética Ponderada - Exemplo
+
+::: panel-tabset
+### Escrito
+
+-   Para calcular a média do conjunto de dados utilizamos a média ponderada: $$\bar{x}=\frac{f_{a_1} x_1+f_{a_2} x_2+\cdots+f_{a_k} 
+    x_k}{n}=\frac{\sum\limits_{i=1}^{k}f_{a_i} x_i}{n}=\sum\limits_{i=1}^{k}x_i 
+    f_{r_i}.$$
+
+### No R
+
+```{r}
+x = c(35,36,37,38,39,40)
+fr = c(0.05,0.30,0.45,0.10,0.05,0.05)
+media.ponderada = weighted.mean(x = x,w = fr)
+print(paste("A média ponderada do conjunto de dados é: ", media.ponderada) )
+```
+:::
+
+## Média Aritmética Ponderada - Exemplo
+
+-   Suponha que um aluno obteve as seguintes notas: 8 (parcial 1), 6 (parcial 2) e 9 (parcial 3). Nessa caso, a média dos exercícios escolares é: $MEE = \frac{8+6+9}{3} = 7.67$. Sabendo que MEE tem peso 2 e a nota da prova final (peso 1) foi de 5, quanto é a nota final do aluno?
+
+## Média Aritmética Ponderada - Exemplo
+
+::: panel-tabset
+### Escrito
+
+-   Para calcular a média do conjunto de dados utilizamos a média ponderada: $${MF}=\frac{2 MEE+PF}{3}=\frac{2\times7.67+5}{3} = 6.78$$
+
+### No R
+
+```{r}
+x = c(7.67,5)
+fr = c(2,1)
+media.ponderada = weighted.mean(x = x,w = fr)
+print(paste("A média ponderada do conjunto de dados é: ", media.ponderada) )
+```
+:::
+
+## Média Aritmética Ponderada - Exemplo
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 50 tarefas
+
+## Média Aritmética Ponderada - Exemplo
+
+```{r}
+#| echo: false
+require(tidyverse)
+set.seed(3)
+dados.interval = runif(50,35,50) |> round()
+HIST = hist(dados.interval,plot=F)
+interval = cut(dados.interval,HIST$breaks,right = T)
+tabela.interval = tibble::tibble(X = sort(interval) |> unique(),
+               PM = HIST$mids,          
+               fa = table(interval),
+               fr = prop.table(fa) |> round(2),
+               Fa = cumsum(fa),
+               Fr = cumsum(fr) ) |> t()
+knitr::kable(tabela.interval)
+
+
+```
+
+## Média Aritmética Ponderada - Exemplo
+
+::: panel-tabset
+### Escrito
+
+-   Para calcular a média do conjunto de dados utilizamos a média ponderada: $$\bar{x}=\frac{\sum_{i=1}^{k}f_{a_i} PM_i}{n}=\sum\limits_{i=1}^{k}PM_i 
+    f_{r_i},$$ em que $PM_i$ é o ponto médio da classe $i$
+
+### No R
+
+```{r}
+x = c(seq(35,49,2))
+fr = c(0.06,0.20,0.18,0.10,0.24,0.04,0.16,0.02)
+media.ponderada = weighted.mean(x = x,w = fr)
+print(paste("A média ponderada do conjunto de dados é: ", media.ponderada) )
+```
+:::
+
+# Moda
+
+-   A moda de uma variável é o valor que ocorre com mais frequência, ou seja, aquele que mais se repete.
+
+-   Se dois valores ocorrerem com a mesma frequência máxima a variável é bimodal;
+
+-   Se mais de dois valores ocorrem com a mesma frequência máxima, a variável é multimodal;
+
+-   Quando nenhum valor se repete, a variável não tem moda.
+
+-   A moda do conjunto de dados será denotada por $Mo$.
+
+## Dados não agrupadados - **Exemplo**
+
+Considere as seguintes séries de dados e identifique a moda:
+
+-   7, 8, 9, 10, 10, 10, 11, 12, 13, 15
+
+-   3, 5, 8, 10, 12, 13
+
+-   2, 3, 4, 4, 4, 5, 6, 7, 7, 7, 8, 9
+
+```{r}
+ex1 = c(7, 8, 9, 10, 10, 10, 11, 12, 13, 15)
+table(ex1)
+```
+
+## Dados agrupadados - **Exemplo**
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 50 tarefas
+-   Para cada série de dados, primeiro identificamos a classe modal (a classe com a maior frequência) e então aplicamos a fórmula para calcular a moda.
+
+## Dados agrupadados - **Exemplo**
+
+```{r}
+#| echo: false
+knitr::kable(tabela.interval)
+```
+
+## Dados agrupadados - **Exemplo**
+
+$Mo(X) = l+\left( \dfrac{d_1}{d_1+d_2}\right) \times h,$
+
+onde:
+
+-   **Classe modal**: classe com maior frequência
+
+-   $l$ : é o limite inferior da classe modal;
+
+-   $d_1$: diferença entre a frequência absoluta da classe modal e a imediatamente anterior;
+
+-   $d_2$: diferença entre a frequência absoluta da classe modal e a imediatamente posterior;
+
+-   $h$: amplitude da classe modal.
+
+## Dados agrupadados - **Exemplo**
+
+-   O método mais simples para o cálculo da moda consiste em tomar o ponto médio da classe modal.
+
+# Mediana
+
+## Dados não agrupados
+
+-   Considere o tempo (segundos) de cinco tarefas realizadas por uma CPU:$30, 25, 28, 33, 31$
+-   Considere o tempo (segundos) de seis tarefas realizadas por uma CPU:$30, 25, 28, 33, 31,32$
+
+```{r}
+median(c(30, 25, 28, 33, 31))
+median(c(30, 25, 28, 33, 31,32))
+```
+
+## Dados não agrupados
+
+-   Consideremos, agora, as observações ordenadas em ordem crescente. Vamos denotar a menor observação por $x_{(1)}$, a segunda por $x_{(2)}$, e assim por diante, obtendo-se
+
+$$x_{(1)} \leq x_{(2)} \leq \ldots \leq x_{(n-1)} \leq x_{(n)}$$
+
+## Dados não agrupados
+
+-   Com esta notação, a mediana da variável $X$ pode ser definida por
+
+```{=tex}
+\begin{align}
+md(X) &= x_{\left(\frac{n+1}{2}\right)} \quad \text{se } n \text{ é ímpar} \\
+md(X) &= \dfrac{x_{\left(\frac{n}{2}\right)} + x_{\left(\frac{n}{2}+1\right)}}{2} \quad \text{se } n \text{ é par}.
+\end{align}
+```
+## Dados não agrupados
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 20 tarefas. Obtenha a mediana.
+
+## Dados não agrupados
+
+```{r}
+#| echo: false
+knitr::kable(tabela)
+```
+
+## Dados agrupadados - **Exemplo**
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 50 tarefas
+-   Para cada série de dados, primeiro identificamos a classe mediana (a classe que acumula 50% das observações) e então aplicamos a fórmula para calcular a mediana.
+
+## Dados agrupadados - **Exemplo**
+
+```{r}
+#| echo: false 
+knitr::kable(tabela.interval)
+```
+
+## Dados agrupadados - **Exemplo**
+
+-   A fórmula usada é dada por:
+
+$$Md(X) = l + \left( \dfrac{n/2 - F}{f_{a_{cm}}} \right) \times h,$$
+
+## Dados agrupadados - **Exemplo**
+
+onde:
+
+-   **Classe mediana**: classe que acumula 50% das observações.
+-    $l$ : é o limite inferior da classe mediana;
+-   $n$: número total de elementos;
+-   $F$: frequência absoluta acumulada até a classe anterior à classe mediana;
+-   $f_{a_{cm}}$: frequência absoluta da classe mediana;
+-   $h$: amplitude da classe mediana.
+
+# Observações
+
+-   **Média.**
+    -   *Vantagens:* é a mais usada das medidas, existe em qualquer variável quantitativa, leva em conta todos os valores da amostra e é usada em muitos métodos estatísticos.
+    -   *Desvantagem:* é afetada por valores extremos.
+
+# Observações
+
+-   **Mediana.**
+    -   *Vantagens:* é usada com frequência, existe em qualquer variável quantitativa e não é afetada por valores extremos.
+    -   *Desvantagem:* não leva em conta todos os valores no cálculo.
+
+# Observações
+
+-   **Moda.**
+    -   *Vantagem:* Não é afetada por valores extremos.
+    -   *Desvantagens:* é raramente usada, pode não existir em uma variável quantitativa, não leva em conta todos os valores e pode existir mais de uma moda em uma variável.
+
+# Assimetria e Simetria
+
+-   Uma distribuição é simétrica quando a metade direita do gráfico é uma imagem espelhada da metade esquerda, indicando que os valores estão igualmente distribuídos em torno da média.
+
+-   Nesse caso, a média, a mediana e a moda geralmente são iguais.
+
+# Assimetria e Simetria
+
+-   Por outro lado, uma distribuição assimétrica ocorre quando a distribuição dos dados não é simétrica, o que significa que há uma assimetria ou distorção na forma da distribuição.
+
+-   Isso pode ocorrer quando há valores extremos ou quando os dados estão inclinados para a esquerda (assimetria negativa) ou para a direita (assimetria positiva).
+
+# Assimetria e Simetria
+
+-   Nesse caso, a média, a mediana e a moda podem ser diferentes.
+
+# Assimetria e Simetria
+
+```{r}
+#| echo: false
+n = 10000
+dados_assimetricos_direita <- rgamma(n,1,.3)
+# Exemplo de dados assimétricos esquerdos
+dados_assimetricos_esquerda <- rbeta(n,4,.5)
+# Exemplo de dados simétricos
+dados_simetricos <- rnorm(n,45,1)
+
+
+# Calculando média, mediana e moda para cada conjunto de dados
+media_assimetricos_direita <- mean(dados_assimetricos_direita)
+mediana_assimetricos_direita <- median(dados_assimetricos_direita)
+
+
+media_assimetricos_esquerda <- mean(dados_assimetricos_esquerda)
+mediana_assimetricos_esquerda <- median(dados_assimetricos_esquerda)
+
+
+media_simetricos <- mean(dados_simetricos)
+mediana_simetricos <- median(dados_simetricos)
+
+# Plotando as distribuições
+par(mfrow=c(1,3))
+hist(dados_assimetricos_direita, main="Assimétricos Direita", xlab="Tempo (s)")
+abline(v=media_assimetricos_direita, col="red", lwd=2)
+abline(v=mediana_assimetricos_direita, col="blue", lwd=2)
+
+hist(dados_simetricos, main="Simétricos", xlab="Tempo (s)")
+abline(v=media_simetricos, col="red", lwd=2)
+abline(v=mediana_simetricos, col="blue", lwd=2)
+
+legend("topleft",fill = c("red","blue"),legend = c("média","mediana"),bty = "n")
+
+hist(dados_assimetricos_esquerda, main="Assimétricos Esquerda", xlab="Tempo (s)")
+abline(v=media_assimetricos_esquerda, col="red", lwd=2)
+abline(v=mediana_assimetricos_esquerda, col="blue", lwd=2)
+
+```
+
+# Referências
