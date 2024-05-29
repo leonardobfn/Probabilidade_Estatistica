@@ -1,0 +1,404 @@
+---
+title: "Probabilidade e Estatística"
+subtitle:  <center> Medidas de Dispersão<center> 
+author: "Professor: Leonardo Brandão Freitas do Nascimento"
+# institute: |
+#   <center> Universidade Federal do Amazonas </center>
+#   <center> Departamento de Estatística </center>
+execute:
+  echo: true
+  message: false
+  warning: false
+format: 
+  revealjs:
+          #fig-align: "center"
+          #fig-width: 20
+          #fig-height: 15
+          chalkboard: true
+          theme: [default, custom.scss]
+          #navigation-mode: horizontal
+          controls-layout: bottom-right
+          controls-tutorial: true
+          slideNumber: true
+          jumpToSlide: true
+          parallax-background-vertical: 50
+          touch: true
+bibliography: references.bib
+---
+
+# Introdução
+
+-   Considere os seguintes valores das variáveis X, Y e Z:
+
+    -   $$x: 70, 70, 70, 70, 70.$$
+    -   $$y: 68, 69, 70, 71, 72.$$
+    -   $$z: 5, 15, 50, 120, 160.$$
+
+-   Note que a média aritmética de cada variável é igual a 70.
+
+-   Note que o conjunto x é mais homogêneo que os conjuntos y e z.
+
+# Introdução
+
+-   Note que y é mais homogêneo que o conjunto z, pois há menor diversificação entre cada um dos valores e a média.
+
+-   As medidas de tendência central são tanto mais descritivas de um conjunto de dados quanto menor for a variabilidade.
+
+# Introdução
+
+Considere dois servidores, A e B, que processam requisições. Ambos têm o mesmo tempo (segundos) médio, 70 segundos.
+
+# Introdução
+
+::: columns
+::: {.column width="40%"}
+```{r}
+#| echo: false
+tempo_req_A = rnorm(10,70,0.5) |> round()
+
+knitr::kable(table(tempo_req_A),col.names = c("Tempo de resposta (A)","Freq"))
+```
+:::
+
+::: {.column width="60%"}
+```{r}
+#| echo: false
+
+tempo_req_B = rnorm(10,70,1.5) |> round()
+knitr::kable(table(tempo_req_B),col.names = c("Tempo de resposta (B)","Freq"))
+```
+:::
+:::
+
+# Introdução
+
+-   Mesmo que ambos os servidores tenham o mesmo tempo médio de resposta, o Servidor B mostra uma maior variabilidade nos tempos de resposta
+
+-   Essa variabilidade pode impactar a consistência da experiência do usuário, especialmente em sistemas que exigem tempos de resposta previsíveis.
+
+# Introdução
+
+-   As medidas de dispersão são fundamentais na estatística descritiva, pois indicam o quanto os dados estão espalhados ou concentrados em torno de um valor central (como a média ou a mediana).
+
+-   Elas são essenciais para entender a variabilidade dos dados
+
+# Amplitude
+
+-   A medida mais simples de variabilidade é amplitude $\mbox{Amplitude} = \mbox{maior valor} - \mbox{menor valor}$
+
+-   Em uma análise de tempo de resposta de servidores, a amplitude pode indicar a diferença entre o tempo mais rápido e o mais lento de resposta.
+
+## Amplitude- Exemplo
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 20 tarefas
+
+## Amplitude - Exemplo
+
+```{r}
+#| echo: false
+require(tidyverse)
+set.seed(45)
+dados = runif(20,35,40) |> round()
+tabela = tibble::tibble(X = sort(dados) |> unique(),
+               fa = table(dados),
+               fr = prop.table(fa),
+               Fa = cumsum(fa),
+               Fr = cumsum(fr) )
+knitr::kable(tabela)
+```
+
+## Amplitude - Exemplo
+
+```{r}
+x = c(35,36,37,38,39,40)
+x  = rep(x,c(1,6,9,2,1,1))
+range(x)
+max(x)-min(x)
+```
+
+## Amplitude - Exemplo
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 50 tarefas
+
+## Amplitude - Exemplo
+
+```{r}
+#| echo: false
+require(tidyverse)
+set.seed(3)
+dados.interval = runif(50,35,50) |> round()
+HIST = hist(dados.interval,plot=F)
+interval = cut(dados.interval,HIST$breaks,right = T)
+tabela.interval = tibble::tibble(X = sort(interval) |> unique(),
+               PM = HIST$mids,          
+               fa = table(interval),
+               fr = prop.table(fa) |> round(2),
+               Fa = cumsum(fa),
+               Fr = cumsum(fr) ) |> t()
+knitr::kable(tabela.interval)
+
+```
+
+## Amplitude - Exemplo
+
+```{r}
+x = seq(35,49,2)
+x  = rep(x,c(3,10,9,5,12,2,8,1))
+range(x)
+max(x)-min(x)
+```
+
+# IQR
+
+-   Uma medida de variabilidade que supera a dependência de valores extremos é a amplitude interquartil (IQR). $$IQR = Q_3 - Q_1$$
+
+#  IQR
+
+```{r}
+x = c(35,36,37,38,39,40)
+x  = rep(x,c(1,6,9,2,1,1))
+IQR(x)
+max(x) - min(x)
+```
+
+```{r}
+x = c(35,36,37,38,39,40,90)
+x  = rep(x,c(1,6,9,2,1,1,3))
+IQR(x)
+max(x) - min(x)
+```
+
+# Observações
+
+-   Um problema com as medidas de dispersão anteriores, como a amplitude e o intervalo interquartil, é que elas consideram apenas as diferenças entre valores em determinadas posições quando os dados são ordenados.
+
+-   Existem medidas que indica a variabilidade de uma variável levando em conta todos os seus valores.
+
+# Variância
+
+-   A variância é uma medida de variabilidade que utiliza todos os dados;
+-   A variância baseia-se na diferença entre o valor de cada observação $x_i$ e a média;
+-   A diferença entre cada $x_i$ e a média denomina-se desvio em torno da média;
+-   A variância amostral é representada por $S^2$
+
+## Variância - Exemplo
+
+-   Considere o tempo (segundos) de cinco tarefas realizadas por um CPU $(x: 3, 6, 5, 7, 9)$. Calcule a variância.
+
+-   Obtenha a média, ou seja, 6.
+
+## Variância - Exemplo
+
+| Observação ($x$) | $(x-\bar{x})$ | $(x-\bar{x})^2$ |
+|------------------|---------------|-----------------|
+| 3                | (3-6=-3)      | $(-3)^2=9$      |
+| 6                | (6-6=0)       | 0               |
+| 5                | (5-6=-1)      | 1               |
+| 7                | (7-6=1)       | 1               |
+| 9                | (9-6=3)       | 9               |
+| **Total**        | 0             | 20              |
+
+## Variância - Exemplo
+
+-   Divida 20 por $n-1$, ou seja, $5-1=4$. Portanto, $S^2=\dfrac{20}{4}=5 segundos^2$
+
+-   Uma interpretação prática será visto juntamente com o conceito de desvio padrão
+
+## Variância - Exemplo
+
+::: panel-tabset
+## No R
+
+```{r}
+x = c(3,6,5,7,9)
+var(x)
+```
+
+## Escrito
+
+$$
+s^2 = \dfrac{(x_1 - \bar{x})^2+(x_2 - \bar{x})^2+...+(x_n - \bar{x})^2}{n-1}
+$$
+:::
+
+## Variância - Exemplo
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 20 tarefas
+
+## Variância - Exemplo
+
+```{r}
+#| echo: false
+
+knitr::kable(tabela)
+```
+
+## Variância - Exemplo
+
+::: panel-tabset
+## No R
+
+```{r}
+x = c(35,36,37,38,39,40)
+n = 20
+fr = c(0.05,0.30,0.45,0.10,0.05,0.05)
+fa = n*fr
+media.ponderada = weighted.mean(x = x,w = fr)
+
+sum(fa*(x-media.ponderada)^2)/(n-1)
+
+
+
+```
+
+## Escrito
+
+$$
+s^2 = \dfrac{(x_1 - \bar{x})^2f_{a_1}+(x_2 - \bar{x})^2f_{a_2}+...+(x_k - \bar{x})^2f_{a_k}}{n-1}
+$$
+:::
+
+## Variância - Exemplo
+
+-   A tabala abaixo mostra o tempo gasto (segundos) de uma CPU na realização de 50 tarefas
+
+## Variância - Exemplo
+
+```{r}
+#| echo: false
+
+knitr::kable(tabela.interval)
+```
+
+## Variância - Exemplo
+
+::: panel-tabset
+## No R
+
+```{r}
+x = c(seq(35,49,2))
+n = 50
+fr = c(0.06,0.20,0.18,0.10,0.24,0.04,0.16,0.02)
+fa = n*fr
+media.ponderada = weighted.mean(x = x,w = fr)
+sum(fa*(x-media.ponderada)^2)/(n-1)
+```
+
+## Escrito
+
+$$
+s^2 = \dfrac{(PM_1 - \bar{x})^2f_{a_1}+(PM_2 - \bar{x})^2f_{a_2}+...+(PM_k - \bar{x})^2f_{a_k}}{n-1}
+$$
+:::
+
+# Desvio Padrão
+
+-   As unidades elevadas ao quadrado associadas à variância tornam difícil obter uma compreensão e uma interpretação intuitiva do valor numérico da variância;
+
+-   Considere o tempo (segundos) de processamento do Servidor A
+
+```{r}
+#| echo: false
+(servidor = rnorm(20,30,5) |> round() )
+```
+
+## Desvio Padrão - Exemplo
+
+-   A variância amostral é de $S^2 =$ `{r} var(servidor) |> round()` $segundos^2$
+-   Uma vez que o desvio padrão é a raiz quadrada da variância, a unidade da variância, segundos elevado ao quadrado, é convertida em segundos no desvio padrão.
+-   Em outras palavras, o desvio padrão é medido nas mesmas unidades dos dados originais.
+
+## Desvio Padrão - Exemplo
+
+-   Desvio padrão amostral é dado por $s = \sqrt{s^2}$.\
+
+-   Considerando os salários iniciais dos graduados, tem-se que o desvio padrão dos tempos de procesamentos é de $s=$ `{r} var(servidor) |> sqrt() |> round(3)`
+
+-   Portanto, os valores dos tempos estão em torno de uma média amostral ($\bar{x}$) com desvio $s$, isto é, $\bar{x}\pm s$. Portanto `{r} mean(servidor)` $\pm$ `{r} var(servidor) |> sqrt() |> round(3)` segundos
+
+-   Para calcular o desvio padrão no R usamos: `sd(x)`
+
+## Desvio Padrão - Exemplo
+
+```{r}
+#| echo: false
+
+library(ggplot2)
+library(cowplot)
+create_distribution_plot <- function(data, title) {
+  mean_val <- mean(data)
+  sd_val <- sd(data)
+  
+  ggplot(data = data.frame(x = data), aes(x = x)) +
+    geom_histogram(aes(y = ..density..), bins = 30, color = "black", alpha = 0.1) +
+    #geom_density(color = "blue", size = 1.2) +
+    geom_vline(xintercept = mean_val, linetype = "dashed", color = "blue", size = 1) +
+    geom_ribbon(data = data.frame(x = c(mean_val - sd_val, mean_val + sd_val)),
+                aes(ymin = 0, ymax = Inf, x = x), fill = "gray", alpha = 0.6) +
+    labs(title = title, x = "Value", y = "Density") +
+    theme_minimal()
+}
+n = 10000
+# Distribuição Simétrica (Normal)
+set.seed(123)
+data_symmetric <- rnorm(1000, mean = 50, sd = 3)
+
+# Distribuição Assimétrica Positiva
+data_pos_skew <- rgamma(n,1,.3)#rlnorm(1000, meanlog = log(50), sdlog = 0.4)
+
+# Distribuição Assimétrica Negativa
+data_neg_skew <- rbeta(n,4,1)#-rlnorm(1000, meanlog = log(50), sdlog = 0.4) + 100
+
+# Criação dos gráficos
+
+plot_pos_skew <- create_distribution_plot(data_pos_skew, "Distribuição Assimétrica Positiva")
+plot_symmetric <- create_distribution_plot(data_symmetric, "Distribuição Simétrica")
+plot_neg_skew <- create_distribution_plot(data_neg_skew, "Distribuição Assimétrica Negativa")
+(plot_grid(plot_pos_skew,plot_symmetric ,plot_neg_skew, nrow = 1))
+
+```
+
+# Coeficiente de Variação
+
+-   Um desvio padrão pode ser considerado grande ou pequeno dependendo da ordem de grandeza da variável.
+
+-   Uma maneira de se expressar a variabilidade dos dados tirando a influência da ordem de grandeza da variável é através do coeficiente de variação.
+
+# Coeficiente de Variação
+
+-   Essa medida indica quão grande é o desvio padrão em torno da média. $$CV = \left(\dfrac{s}{\bar{x}} \times 100\right)\%$$
+
+# Coeficiente de Variação
+
+-   Interpretado como a variabilidade dos dados em relação à média. Quanto menor o CV mais homogêneo é o conjunto de dados.
+
+-   O fato de o coeficiente de variação ser dado em valor relativo nos permite **comparar conjuntos de valores que apresentam unidades de medida distintas.**
+
+## Coeficiente de Variação - Exemplo
+
+-   Suponha que você tenha medido o tempo de execução (em milissegundos) de dois algoritmos de ordenação, Algoritmo A e Algoritmo B, em várias execuções com o mesmo conjunto de dados. Os tempos de execução foram registrados como segue:
+
+-   **Algoritmo A:** Tempos de execução: 15, 16, 15, 17, 14, 16, 15 ms
+
+-   **Algoritmo B:** Tempos de execução: 45, 47, 44, 46, 45, 48, 46 ms
+
+## Coeficiente de Variação - Exemplo
+
+```{r}
+A = c(15, 16, 15, 17, 14, 16, 15)
+B = c(45, 47, 44, 46, 45, 48, 46)
+
+(media.A = mean(A));(media.B = mean(B))
+(sd.A = sd(A));(sd.B = sd(B))
+(cv.A = (sd.A/media.A)*100);(cv.B = (sd.B/media.B)*100)
+```
+
+## Coeficiente de Variação - Exemplo
+
+-   O Algoritmo A tem um CV de aproximadamente `{r} cv.A |> round(2)`%, enquanto o Algoritmo B tem um CV de aproximadamente `{r} cv.B |> round(2)`%.
+
+-   Isso indica que o Algoritmo B possui uma variabilidade menor em relação ao seu tempo de execução médio, sendo mais consistente do que o Algoritmo A.
+
+-   A análise do coeficiente de variação é útil para comparar a consistência de desempenho dos algoritmos, independentemente das unidades de medida.
+
+# Referências

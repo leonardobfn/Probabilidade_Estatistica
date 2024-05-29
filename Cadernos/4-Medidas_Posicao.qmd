@@ -1,6 +1,6 @@
 ---
 title: "Probabilidade e Estatística"
-subtitle:  <center> Medidas de Posição <center> 
+subtitle:  <center> Medidas de Posição e Separatrizes <center> 
 author: "Professor: Leonardo Brandão Freitas do Nascimento"
 # institute: |
 #   <center> Universidade Federal do Amazonas </center>
@@ -310,7 +310,7 @@ $$Md(X) = l + \left( \dfrac{n/2 - F}{f_{a_{cm}}} \right) \times h,$$
 onde:
 
 -   **Classe mediana**: classe que acumula 50% das observações.
--    $l$ : é o limite inferior da classe mediana;
+-   $l$ : é o limite inferior da classe mediana;
 -   $n$: número total de elementos;
 -   $F$: frequência absoluta acumulada até a classe anterior à classe mediana;
 -   $f_{a_{cm}}$: frequência absoluta da classe mediana;
@@ -391,5 +391,103 @@ abline(v=media_assimetricos_esquerda, col="red", lwd=2)
 abline(v=mediana_assimetricos_esquerda, col="blue", lwd=2)
 
 ```
+
+# Separatrizes
+
+## Exemplos
+
+1.  Determinar os 10% mais ricos ou os 25% mais pobres
+
+2.  Identificar os 20% de clientes que geram mais receita
+
+3.  10% das requisições estão enfrentando atrasos significativos
+
+4.  75% dos usuários do aplicativo gastam até 3 minutos nas sessões
+
+## Quartis
+
+-   Os quartis são três valores que dividem os dados em quatro partes iguais:
+
+1.  **Primeiro quartil** $Q_1$: é o valor abaixo do qual 25% dos dados estão situados.
+
+2.  **Segundo quartil** $Q_2$: é a mediana, divide os dados ao meio, com 50% dos dados abaixo dele.
+
+3.  **Terceiro quartil** $Q_3$: é o valor abaixo do qual 75% dos dados estão situados.
+
+## Quartis
+
+Para calcular os quartis, siga estes passos:
+
+1.  Ordene os dados em ordem crescente.
+
+2.  Encontre a mediana ($Q_2$), divide os dados em duas metades.
+
+3.  $Q_1$ é o número que está na metade inferior dos dados (do menor valor até $Q_2$).
+
+4.  $Q_3$ é o número que está da metade superior dos dados (de $Q_2$ até o maior valor).
+
+## Quartis - Exemplos
+
+-   Considere os tempos, em segundos, de cinco tarefas realizadas por uma CPU: $$30; 25;20;28;33;31;32. $$
+
+## Quartis - Exemplos
+
+::: panel-tabset
+## No R
+
+```{r}
+z = c(30,25,20,28,33,31,32)
+summary(z)
+```
+
+## Escrito
+
+-   Dados ordenados: 20, 25, 28, 30, 31, 32, 33
+
+-   $Q_1 = \frac{25+28}{2} = 26.5$. Portanto, 25% das tarefas foram realizadas em até 26.5 segundos
+
+-   $Q_2 = 30$. Portanto, 50% das tarefas foram realizadas em até 30 segundos
+
+-   $Q_3 = \frac{31+32}{2} = 31.5$. Portanto, 75% das tarefas foram realizadas em até 31.5 segundos
+:::
+
+## Percentis
+
+-   De forma geral, pode-se determinar o $p$-ésimo percentil.
+
+Percentil
+
+:   O p-ésimo percentil é o valor que pelo menos $p$ por cento das observações são menores ou iguais a esse valor e pelo menos (100 − p) por cento das observações são maiores ou iguais a esse valor.
+
+## Percentis
+
+O procedimento a seguir pode ser usado para calcular o $p$-ésimo percentil.
+
+-   **Etapa 1**: Organize os dados em ordem crescente.
+
+-   **Etapa 2**: Calcule um índice $i$ $$
+    i = \left(\frac{p}{100}\right)n
+    $$ onde $p$ é o percentil procurado e $n$ é o número de observações.
+
+## Percentis
+
+-   **Etapa 3**:
+
+    -   Se $i$ não for um número inteiro, arredonde-o para cima. O próximo número inteiro maior do que $i$ denota a posição do $p$-ésimo percentil.
+    -   Se $i$ for um número inteiro, o $p$-ésimo percentil será a média dos valores que ocupam as posições $i$ e $i+1$.
+
+## Percentis - Exemplos
+
+```{r}
+z = c(30,25,20,28,33,31,32)
+per = c(.10,.20,.25,.50,.75,.90)
+quantile(z,per)
+```
+
+-   20% das tarefas foram realizadas em até 25.6 segundos
+
+-   90% das tarefas foram realizadas em até 32.4 segundos
+
+-   Observação: às vezes são utilizadas outras convenções para calcular os percentis, e os valores reais atribuídos aos percentis podem variar ligeiramente. Para mais informações, digite: `?quantile`
 
 # Referências
